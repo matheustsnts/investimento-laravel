@@ -268,7 +268,7 @@ LOG_CHANNEL=stack
 LOG_LEVEL=debug
 
 DB_CONNECTION=pgsql
-DB_HOST=db
+DB_HOST=postgres
 DB_PORT=5432
 DB_DATABASE=gestao_financeira
 DB_USERNAME=postgres
