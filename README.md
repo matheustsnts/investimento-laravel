@@ -248,7 +248,7 @@ Passos gerais (podem variar conforme seu `docker-compose.yml` e `Dockerfile`):
     Ou, em desenvolvimento:
 
     ```bash
-    docker-compose run --rm npm run dev
+    docker-compose exec -it npm run dev
     ```
 
 ---
