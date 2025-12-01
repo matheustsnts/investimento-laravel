@@ -1,0 +1,166 @@
+services:
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel/app
+    container_name: investimento-app
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker_config_files/php/local.ini:/usr/local/etc/php/conf.d/local.ini:delegated
+      - ~/.composer/docker-cache/:/root/.composer:cached
+    networks:
+      - investimento-networks
+    depends_on:
+      - redis
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: investimento-webserver
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker_config_files/nginx/conf.d/:/etc/nginx/conf.d/:delegated
+    networks:
+      - investimento-networks
+    depends_on:
+      - postgres
+      - app
+
+  #Postgres Service
+  postgres:
+    container_name: investimento-postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres:delegated
+    ports:
+      - "5432:5432"
+    networks:
+      - investimento-networks
+
+  #PgAdmin
+  pgadmin:
+    container_name: investimento-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@investimentos.com
+      PGADMIN_DEFAULT_PASSWORD: bolsa
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "8080:80"
+    networks:
+      - investimento-networks
+
+  #composer
+  composer:
+    build:
+      context: .
+      dockerfile: Dockerfile-composer
+    container_name: investimento-composer
+    volumes:
+      - ./:/var/www/
+    working_dir: /var/www/
+    depends_on:
+      - app
+    networks:
+      - investimento-networks
+
+  #redis
+  redis:
+    image: redis:alpine
+    container_name: investimento-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - investimento-networks
+
+  #Vite Dev Server
+  vite:
+    image: node:20-alpine
+    container_name: investimento-vite
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    networks:
+      - investimento-networks
+    depends_on:
+      - app
+
+  #npm
+  npm: 
+    image: node:20-alpine
+    container_name: investimento-npm
+    volumes:
+      - ./:/var/www/
+    working_dir: /var/www/
+    entrypoint: [ "npm" ]
+    networks:
+      - investimento-networks
+
+  #artisan
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: investimento-artisan
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - postgres
+    working_dir: /var/www/
+    entrypoint: [ "php", "/var/www/artisan" ]
+    networks:
+      - investimento-networks
+
+  #Laravel Jobs
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: investimento-queue
+    volumes:
+      - ./:/var/www
+    restart: always
+    logging:
+      driver: "json-file"
+    depends_on:
+      - app
+      - redis
+    working_dir: /var/www/
+    command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    networks:
+      - investimento-networks
+      
+#Docker Networks
+networks:
+  investimento-networks:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+  postgres:
+  pgadmin:

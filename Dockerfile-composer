@@ -1,0 +1,18 @@
+FROM composer:2.7 AS composer
+
+# Diretório de trabalho dentro do container
+WORKDIR /var/www
+
+# Copia apenas os arquivos de dependência primeiro (melhor cache)
+COPY composer.json composer.lock* ./
+
+# Instala dependências sem scripts/autoloader (otimiza cache)
+RUN composer install --no-scripts --no-autoloader --prefer-dist --no-interaction
+
+# Agora copia todo o código do projeto
+COPY . .
+
+# Opcional: roda novamente pra garantir que tudo está ok (incluindo autoloader)
+RUN composer install --prefer-dist --no-interaction
+
+# Container padrão desse stage já tem o composer binário disponível

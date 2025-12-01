@@ -1,0 +1,201 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+/* resources/css/app.css */
+
+/* Imports existentes */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* Tema claro (padrão) */
+body.theme-light {
+    background-color: #f5f7fb;
+    color: #212529;
+}
+
+body.theme-light .card {
+    background-color: #ffffff;
+    color: #212529;
+}
+
+body.theme-light .footer-theme {
+    background-color: #ffffff !important;
+    color: #6c757d;
+}
+
+/* ====================== */
+/*       TEMA ESCURO      */
+/* ====================== */
+
+body.theme-dark {
+    background-color: #0b1120; /* bem escuro, tipo slate/indigo */
+    color: #e5e7eb;           /* cinza bem claro */
+}
+
+/* Navbar */
+body.theme-dark .navbar {
+    background-color: #020617 !important; /* quase preto */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+body.theme-dark .navbar .navbar-brand,
+body.theme-dark .navbar .nav-link,
+body.theme-dark .navbar .navbar-toggler-icon,
+body.theme-dark .navbar .dropdown-item {
+    color: #e5e7eb !important;
+}
+
+body.theme-dark .navbar .dropdown-menu {
+    background-color: #020617;
+    border-color: #111827;
+}
+
+body.theme-dark .navbar .dropdown-item:hover {
+    background-color: #111827;
+}
+
+/* Cards */
+body.theme-dark .card {
+    background-color: #020617;
+    color: #e5e7eb;
+    border: 1px solid #111827;
+}
+
+body.theme-dark .card .card-title,
+body.theme-dark .card .card-text,
+body.theme-dark .card small,
+body.theme-dark .card .text-muted {
+    color: #e5e7eb !important;
+}
+
+/* Tabelas */
+body.theme-dark .table {
+    color: #e5e7eb;
+    border-color: #111827;
+}
+
+body.theme-dark .table thead th {
+    border-color: #111827;
+    color: #e5e7eb;
+    background-color: #020617;
+}
+
+body.theme-dark .table tbody tr {
+    border-color: #111827;
+}
+
+body.theme-dark .table tbody tr:nth-child(even) {
+    background-color: #020617;
+}
+
+/* Inputs, selects, textarea */
+body.theme-dark .form-control,
+body.theme-dark .form-select,
+body.theme-dark .input-group-text,
+body.theme-dark .form-check-input {
+    background-color: #020617;
+    color: #e5e7eb;
+    border-color: #1f2937;
+}
+
+body.theme-dark .form-control::placeholder {
+    color: #6b7280;
+}
+
+body.theme-dark .form-control:focus,
+body.theme-dark .form-select:focus {
+    background-color: #020617;
+    color: #f9fafb;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 0.2rem rgba(79,70,229,0.35);
+}
+
+/* Labels */
+body.theme-dark .form-label,
+body.theme-dark label {
+    color: #e5e7eb;
+}
+
+/* Alerts */
+body.theme-dark .alert {
+    background-color: #020617;
+    border-color: #1f2937;
+    color: #f9fafb;
+}
+
+/* Progress bar */
+body.theme-dark .progress {
+    background-color: #020617;
+}
+
+body.theme-dark .progress-bar.bg-success {
+    background-color: #22c55e !important;
+}
+body.theme-dark .progress-bar.bg-warning {
+    background-color: #facc15 !important;
+}
+body.theme-dark .progress-bar.bg-danger {
+    background-color: #ef4444 !important;
+}
+
+/* Botões */
+body.theme-dark .btn-primary {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+
+body.theme-dark .btn-primary:hover {
+    background-color: #4338ca;
+    border-color: #4338ca;
+}
+
+body.theme-dark .btn-secondary {
+    background-color: #4b5563;
+    border-color: #4b5563;
+}
+
+body.theme-dark .btn-outline-primary {
+    color: #93c5fd;
+    border-color: #93c5fd;
+}
+body.theme-dark .btn-outline-primary:hover {
+    background-color: #93c5fd;
+    color: #020617;
+}
+
+body.theme-dark .btn-outline-warning {
+    color: #facc15;
+    border-color: #facc15;
+}
+body.theme-dark .btn-outline-warning:hover {
+    background-color: #facc15;
+    color: #020617;
+}
+
+body.theme-dark .btn-outline-danger {
+    color: #fca5a5;
+    border-color: #fca5a5;
+}
+body.theme-dark .btn-outline-danger:hover {
+    background-color: #fca5a5;
+    color: #020617;
+}
+
+/* Links em geral */
+body.theme-dark a {
+    color: #93c5fd;
+}
+body.theme-dark a:hover {
+    color: #bfdbfe;
+}
+
+/* Footer */
+body.theme-dark .footer-theme {
+    background-color: #020617 !important;
+    color: #9ca3af;
+}
+
+/* Text-muted no dark não pode ser quase invisível */
+body.theme-dark .text-muted {
+    color: #9ca3af !important;
+}
